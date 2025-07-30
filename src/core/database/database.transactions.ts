@@ -11,6 +11,10 @@ export const createTransactionHelpers = (db: Database) => {
         ),
     }
 
+    const reelStatements = {
+        getAllReels: db.prepare("SELECT * FROM reels"),
+    }
+
     const posts = {
         getById: (id: number) => {
             return statements.getPostById.get(id)
@@ -23,8 +27,13 @@ export const createTransactionHelpers = (db: Database) => {
         },
     }
 
+    const reels = {
+        getAll: () => reelStatements.getAllReels.all(),
+    }
+
     return {
         posts,
+        reels,
     }
 }
 
