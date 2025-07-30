@@ -10,10 +10,15 @@ export const postsService = (fastify: FastifyInstance) => {
     return {
         create: async (postData: CreatePostData) => {
             fastify.log.info(`Creating a new post`)
-            // This will use the MOCK `transactions` in our test,
-            // and the REAL `transactions` in our live application.
+            // This will use the MOCK `transactions` in the test,
+            // and the REAL `transactions` in the live application.
             const post = fastify.transactions.posts.create(postData)
             return post
+        },
+        getAll: async () => {
+            fastify.log.info(`Getting all posts`)
+            const posts = fastify.transactions.posts.getAll()
+            return posts
         },
     }
 }
