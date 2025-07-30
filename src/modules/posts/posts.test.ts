@@ -2,9 +2,9 @@ import Fastify from "fastify"
 import { postsRoutes } from "./posts.routes"
 
 describe("POST GET /posts", () => {
-    const app = Fastify()
-
     it("should create a new post and return it with a 201 status code", async () => {
+        const app = Fastify()
+
         const newPostPayload = {
             img_url: "http://example.com/new-image.jpg",
             caption: "A brand new post from our test!",
@@ -32,7 +32,9 @@ describe("POST GET /posts", () => {
         expect(JSON.parse(response.payload)).toEqual(createdPost)
     })
 
-    it("should get all posts and return them with a 201 status code", async () => {
+    it("should get all posts and return them with a 200 status code", async () => {
+        const app = Fastify()
+
         const mockPosts = [
             {
                 id: 1,
@@ -63,7 +65,7 @@ describe("POST GET /posts", () => {
             url: "/posts",
         })
 
-        expect(response.statusCode).toBe(201)
+        expect(response.statusCode).toBe(200)
         expect(JSON.parse(response.payload)).toEqual(mockPosts)
     })
 })
