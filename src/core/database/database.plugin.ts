@@ -54,6 +54,24 @@ async function databasePluginHelper(fastify: FastifyInstance) {
         ('http://example.com/image2.jpg', 'Second tagged post', 'MariaB');
     `)
 
+    db.exec(`
+      CREATE TABLE IF NOT EXISTS highlights (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      title TEXT NOT NULL,
+      cover_image_url TEXT NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      );
+    `)
+
+    // Add sample data to test the highlights during development
+    db.exec(`
+      INSERT INTO highlights (title, cover_image_url)
+      VALUES
+        ('Summer Vibes', 'http://example.com/highlight1.jpg'),
+        ('City Lights', 'http://example.com/highlight2.jpg');
+    `)
+
     const transactions = createTransactionHelpers(db)
 
     fastify.decorate("db", db)

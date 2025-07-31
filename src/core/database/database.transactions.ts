@@ -39,10 +39,25 @@ export const createTransactionHelpers = (db: Database) => {
         getAll: () => taggedStatements.getAllTaggedPosts.all(),
     }
 
+    const highlightsStatements = {
+        getAllHighlights: db.prepare("SELECT * FROM highlights"),
+        getHighlightsById: db.prepare("SELECT * FROM highlights"),
+    }
+
+    const highlights = {
+        getAll: () => {
+            return highlightsStatements.getAllHighlights.all()
+        },
+        getById: (id: number) => {
+            return highlightsStatements.getHighlightsById.get(id)
+        },
+    }
+
     return {
         posts,
         reels,
         tagged,
+        highlights,
     }
 }
 
