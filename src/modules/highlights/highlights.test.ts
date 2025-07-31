@@ -34,6 +34,7 @@ describe("GET  /highlights", () => {
             },
             highlights: {
                 getAll: jest.fn().mockReturnValue(mockHighlights),
+                getById: jest.fn(),
             },
         })
 
@@ -46,8 +47,10 @@ describe("GET  /highlights", () => {
 
         expect(response.statusCode).toBe(200)
         expect(JSON.parse(response.payload)).toEqual(mockHighlights)
+        await app.close()
     })
 })
+
 describe("GET  /highlights/:id", () => {
     it("should return a single highlight by ID with a 200 status code", async () => {
         const app = Fastify()
@@ -80,7 +83,8 @@ describe("GET  /highlights/:id", () => {
                 getAll: jest.fn(),
             },
             highlights: {
-                getById: jest.fn().mockReturnValue(mockHighlights),
+                getAll: jest.fn(),
+                getById: jest.fn().mockReturnValue(mockHighlights[1]),
             },
         })
 
@@ -91,8 +95,9 @@ describe("GET  /highlights/:id", () => {
             url: "/highlights/2",
         })
 
-        expect(JSON.parse(response.payload)).toHaveBeenCalledWith(2)
+        expect(app.transactions.highlights.getById).toHaveBeenCalledWith(2)
         expect(response.statusCode).toBe(200)
-        expect(JSON.parse(response.payload)).toEqual(mockHighlights)
+        expect(JSON.parse(response.payload)).toEqual(mockHighlights[1])
+        await app.close()
     })
 })
