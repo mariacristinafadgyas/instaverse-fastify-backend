@@ -46,13 +46,6 @@ async function databasePluginHelper(fastify: FastifyInstance) {
       tagged_by TEXT NOT NULL
       );
     `)
-    // Add sample data to test with during development
-    db.exec(`
-      INSERT INTO tagged_posts (img_url, caption, tagged_by)
-      VALUES
-        ('http://example.com/image1.jpg', 'First tagged post', 'Maria'),
-        ('http://example.com/image2.jpg', 'Second tagged post', 'MariaB');
-    `)
 
     db.exec(`
       CREATE TABLE IF NOT EXISTS highlights (
@@ -62,14 +55,6 @@ async function databasePluginHelper(fastify: FastifyInstance) {
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
       );
-    `)
-
-    // Add sample data to test the highlights during development
-    db.exec(`
-      INSERT INTO highlights (title, cover_image_url)
-      VALUES
-        ('Summer Vibes', 'http://example.com/highlight1.jpg'),
-        ('City Lights', 'http://example.com/highlight2.jpg');
     `)
 
     const transactions = createTransactionHelpers(db)
