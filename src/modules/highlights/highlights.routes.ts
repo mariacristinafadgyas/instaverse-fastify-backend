@@ -26,6 +26,11 @@ const highlightsRoutes: FastifyPluginAsync = async (
 
         const highlightById = await service.getById(numericId)
 
+        // Handle case where highlight is not found
+        if (!highlightById) {
+            return reply.code(404).send({ error: "Highlight not found" })
+        }
+
         // Return a 200 OK status code for a highlight by id
         return reply.code(200).send(highlightById)
     })
