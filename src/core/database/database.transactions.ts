@@ -4,11 +4,22 @@ import type { Database } from "better-sqlite3"
 export const createTransactionHelpers = (db: Database) => {
     // We use prepared statements for security and performance.
     const statements = {
+        // Posts
         getPostById: db.prepare("SELECT * FROM posts WHERE id = ?"),
         getAllPosts: db.prepare("SELECT * FROM posts"),
         createPost: db.prepare(
             "INSERT INTO posts (img_url, caption) VALUES (@img_url, @caption) RETURNING *"
         ),
+
+        // Reels
+        getAllReels: db.prepare("SELECT * FROM reels"),
+
+        // Tagged
+        getAllTaggedPosts: db.prepare("SELECT * FROM tagged_posts"),
+
+        // Highlights
+        getAllHighlights: db.prepare("SELECT * FROM highlights"),
+        getHighlightsById: db.prepare("SELECT * FROM highlights WHERE id = ?"),
     }
 
     const posts = {
@@ -23,33 +34,20 @@ export const createTransactionHelpers = (db: Database) => {
         },
     }
 
-    const reelStatements = {
-        getAllReels: db.prepare("SELECT * FROM reels"),
-    }
-
     const reels = {
-        getAll: () => reelStatements.getAllReels.all(),
-    }
-
-    const taggedStatements = {
-        getAllTaggedPosts: db.prepare("SELECT * FROM tagged_posts"),
+        getAll: () => statements.getAllReels.all(),
     }
 
     const tagged = {
-        getAll: () => taggedStatements.getAllTaggedPosts.all(),
-    }
-
-    const highlightsStatements = {
-        getAllHighlights: db.prepare("SELECT * FROM highlights"),
-        getHighlightsById: db.prepare("SELECT * FROM highlights WHERE id = ?"),
+        getAll: () => statements.getAllTaggedPosts.all(),
     }
 
     const highlights = {
         getAll: () => {
-            return highlightsStatements.getAllHighlights.all()
+            return statements.getAllHighlights.all()
         },
         getById: (id: number) => {
-            return highlightsStatements.getHighlightsById.get(id)
+            return statements.getHighlightsById.get(id)
         },
     }
 
