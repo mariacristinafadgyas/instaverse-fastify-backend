@@ -1,5 +1,5 @@
 import type { FastifyInstance } from "fastify"
-import { fileStorageService } from "src/common/file-storage.service"
+import { fileStorageService } from "../../common/file-storage.service"
 
 // Define a type for the data needed to create a post
 type CreatePostData = {
