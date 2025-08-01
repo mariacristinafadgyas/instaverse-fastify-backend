@@ -41,7 +41,7 @@ export const createTransactionHelpers = (db: Database) => {
 
     const highlightsStatements = {
         getAllHighlights: db.prepare("SELECT * FROM highlights"),
-        getHighlightsById: db.prepare("SELECT * FROM highlights"),
+        getHighlightsById: db.prepare("SELECT * FROM highlights WHERE id = ?"),
     }
 
     const highlights = {
