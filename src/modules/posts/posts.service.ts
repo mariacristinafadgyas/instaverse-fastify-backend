@@ -14,22 +14,22 @@ type CreatePostServiceArgs = {
 
 export const postsService = (fastify: FastifyInstance) => {
     return {
-        create: async (postData: CreatePostServiceArgs) => {
+        create: async (data: CreatePostServiceArgs) => {
             fastify.log.info(`Creating a new post`)
 
-            let img_url = postData.caption // Fallback if no image, or placeholder
+            let img_url = data.caption // Fallback if no image, or placeholder
 
-            if (postData.imageFile) {
+            if (data.imageFile) {
                 // If an image is provided, save it and get the URL
                 img_url = await fileStorageService.saveImage(
-                    postData.imageFile.buffer,
-                    postData.imageFile.filename
+                    data.imageFile.buffer,
+                    data.imageFile.filename
                 )
             }
 
             const post = fastify.transactions.posts.create({
                 img_url,
-                caption: postData.caption,
+                caption: data.caption,
             })
             return post
         },
