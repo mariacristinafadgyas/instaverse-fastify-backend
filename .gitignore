@@ -58,3 +58,6 @@ profile*
 *flamegraph*
 
 .env
+
+# Database
+database.db
