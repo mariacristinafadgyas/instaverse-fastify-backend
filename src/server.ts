@@ -52,3 +52,5 @@ fastify.listen({ port }, function (err, address) {
         process.exit(1)
     }
 })
+
+export default fastify
